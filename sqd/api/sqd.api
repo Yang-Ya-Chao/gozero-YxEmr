@@ -1,0 +1,80 @@
+
+syntax = "v1"
+
+info (
+	title: // 申请单api
+	desc: // 申请单的api定义
+	author: "yangyachao"
+	email: "2405414352@qq.com"
+)
+//go:generate goctl api go -api sqd.api -dir .
+//开单
+type addreq {
+	Isqlx int64    `json:"isqlx"`
+	Ibrlx int64    `json:"ibrlx"`
+	Cbrh  string   `json:"cbrh"`
+	Cmbbh string   `json:"cmbbh"`
+	Cztbm []string `json:"cztbm"`
+}
+
+//撤单
+type delreq {
+	Isqlx int64  `json:"isqlx"`
+	Ibrlx int64  `json:"ibrlx"`
+	Cbrh  string `json:"cbrh"`
+	Csqdh string `json:"csqdh"`
+}
+
+//登记
+type regreq {
+	Ilx   int64    `json:"ilx"`
+	Ibrlx int64    `json:"ibrlx"`
+	Cbrh  string   `json:"cbrh"`
+	Csqdh string   `json:"csqdh"`
+	Cztbm []string `json:"cztbm"`
+}
+
+//收费
+type chareq {
+	Ilx   int64    `json:"ilx"`
+	Ibrlx int64    `json:"ibrlx"`
+	Cbrh  string   `json:"cbrh"`
+	Csfr  string   `json:"csfr"`
+	Cylkh string   `json:"cylkh"`
+	Csqdh string   `json:"csqdh"`
+	Cztbm []string `json:"cztbm"`
+}
+
+//执行
+type perreq {
+	Ilx   int64    `json:"ilx"`
+	Ibrlx int64    `json:"ibrlx"`
+	Cbrh  string   `json:"cbrh"`
+	Csqdh string   `json:"csqdh"`
+	Cztbm []string `json:"cztbm"`
+}
+type resp {
+	Code int64       `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+}
+
+//报告
+
+service sqd-api {
+	@handler Add    // 开单
+	post /sqd/add(addreq) returns(resp)
+	
+	@handler Del // 撤单
+	post /sqd/del(delreq) returns(resp)
+	
+	@handler Reg    // 登记
+	post /sqd/reg(regreq) returns(resp)
+	
+	@handler Cha // 计费
+	post /sqd/cha(chareq) returns(resp)
+	
+	@handler Per // 执行
+	post /sqd/per(perreq) returns(resp)
+	
+}

@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package rep;
+option go_package="./rep";
+
+message Req {
+  int64 Ibrlx = 1;
+  string Cbrh = 2;
+  string Cmbbh = 3;
+  repeated string Cztbm  = 4;
+}
+
+message Resp {
+  int64 Code = 1;
+  string Msg = 2;
+  string Data = 3;
+}
+
+service reper {
+  rpc Do(Req) returns(Resp);
+}
+
+
+//goctl rpc protoc rep.proto --go_out=. --go-grpc_out=. --zrpc_out=. --home D:/GoWork/src/YxEmr/$HOME/template

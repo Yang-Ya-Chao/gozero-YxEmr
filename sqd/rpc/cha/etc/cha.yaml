@@ -1,0 +1,9 @@
+Name: cha.rpc
+ListenOn: 0.0.0.0:9003
+DataSourceName: server=192.168.200.66\cx1;user id=sa;password=123qwe,.;database=yxhis;encrypt=disable
+Endpoints:
+  Key: cha.rpc # 直连服务注册key
+RedisHost: 127.0.0.1:6379
+Log:
+  Mode: file
+DBLog : false

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package reg;
+option go_package="./reg";
+
+message Req {
+  int64 Ilx = 1;
+  int64 Ibrlx = 2;
+  string Cbrh = 3;
+  string Csqdh = 4;
+  repeated string Cztbm  = 5;
+}
+
+message Resp {
+  int64 Code = 1;
+  string Msg = 2;
+  string Data = 3;
+}
+
+service reger {
+  rpc Do(Req) returns(Resp);
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package add;
+option go_package="./add";
+
+message Req {
+  int64 Isqlx = 1;
+  int64 Ibrlx = 2;
+  string Cbrh = 3;
+  string Cmbbh = 4;
+  repeated string Cztbm  = 5;
+}
+
+message Resp {
+  int64 Code = 1;
+  string Msg = 2;
+  string Data = 3;
+}
+
+service adder {
+  rpc Do(Req) returns(Resp);
+}

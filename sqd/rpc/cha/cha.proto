@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package cha;
+option go_package="./cha";
+//go:generate goctl rpc protoc add.proto --go_out=. --go-grpc_out=. --zrpc_out=.
+message Req {
+  int64 Ilx = 1;
+  int64 Ibrlx = 2;
+  string Cbrh = 3;
+  string Csfr = 4;
+  string Cylkh = 5 ;
+  string Csqdh = 6;
+  repeated string Cztbm  = 7;
+}
+
+message Resp {
+  int64 Code = 1;
+  string Msg = 2;
+  string Data = 3;
+}
+
+service chaer {
+  rpc Do(Req) returns(Resp);
+}

@@ -1,0 +1,33 @@
+Name: sqd-api
+Host: 0.0.0.0
+Port: 8000
+#开单
+Add:
+  NonBlock: false
+  Endpoints:
+    - 127.0.0.1:9000
+#撤单
+Del:
+  NonBlock: True
+  Endpoints:
+    - 127.0.0.1:9001
+#登记
+Reg:
+  NonBlock: True
+  Endpoints:
+    - 127.0.0.1:9002
+#收费
+Cha:
+  NonBlock: True
+  Endpoints:
+    - 127.0.0.1:9003
+#执行
+Per:
+  NonBlock: True
+  Endpoints:
+    - 127.0.0.1:9004
+#报告
+Rep:
+  NonBlock: True
+  Endpoints:
+    - 127.0.0.1:9005

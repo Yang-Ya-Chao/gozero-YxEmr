@@ -1,0 +1,8 @@
+Name: reg.rpc
+ListenOn: 0.0.0.0:9002
+DataSourceName: server=192.168.200.66\cx1;user id=sa;password=123qwe,.;database=yxhis;encrypt=disable
+Endpoints:
+  Key: reg.rpc # 直连服务注册key
+Log:
+  Mode: file
+DBLog : false

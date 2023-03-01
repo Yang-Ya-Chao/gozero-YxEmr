@@ -1,0 +1,5 @@
+Name: per.rpc
+ListenOn: 0.0.0.0:9004
+DataSourceName: server=192.168.200.66\cx1;user id=sa;password=123qwe,.;database=yxhis;encrypt=disable
+Endpoints:
+  Key: per.rpc # 直连服务注册key

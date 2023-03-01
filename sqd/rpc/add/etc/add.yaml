@@ -1,0 +1,12 @@
+Name: add.rpc
+ListenOn: 0.0.0.0:9000
+#DataSourceName: sqlserver://账号:密码@服务器?database=数据库&encrypt=disable
+DataSourceName: sqlserver://sa:123qwe,.@192.168.200.66/cx1?database=yxhis&encrypt=disable
+Log:
+  Mode: file
+# 直连服务注册key
+Endpoints:
+  Key: add.rpc
+#redis缓存
+Cache:
+  - Host: 127.0.0.1:6379

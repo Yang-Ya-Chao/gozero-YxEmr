@@ -1,0 +1,2 @@
+{"@timestamp":"2023-02-24T11:42:01.836+08:00","caller":"database/init.go:20","content":"Initdb","level":"info"}
+{"@timestamp":"2023-02-24T11:43:38.821+08:00","caller":"serverinterceptors/statinterceptor.go:72","content":"127.0.0.1:58863 - /del.deler/Do - {\"Cbrh\":\"2211000001\",\"Csqdh\":\"2302460076\"}","duration":"4.1ms","level":"info","span":"c9871413bc9b034b","trace":"adb6bf89fb2fb32f3796a8c592766e23"}
