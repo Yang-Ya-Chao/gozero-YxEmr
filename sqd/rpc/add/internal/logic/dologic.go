@@ -3,7 +3,7 @@ package logic
 import (
 	"YxEmr/common"
 	"YxEmr/common/database"
-	pub "YxEmr/common/pub"
+	"YxEmr/common/pub"
 	"YxEmr/sqd/rpc/add/add"
 	"YxEmr/sqd/rpc/add/internal/svc"
 	"context"
@@ -12,7 +12,6 @@ import (
 	"github.com/jinzhu/copier"
 	"github.com/zeromicro/go-zero/core/logx"
 	"strings"
-	"time"
 )
 
 type DoLogic struct {
@@ -113,7 +112,7 @@ func (l *DoLogic) Do(in *add.Req) (string, error) {
 		case strings.Contains(u.CJSBT, "床位"):
 			data2 = brinfo.CCW
 		case strings.Contains(u.CJSBT, "申请时间"):
-			data2 = time.Now().Format(common.TemplateDateTime)
+			data2 = common.Now
 		case strings.Contains(u.CJSBT, "挂号时间"):
 			data2 = brinfo.DSJ
 		case strings.Contains(u.CJSBT, "入院时间"):
@@ -196,7 +195,7 @@ func (l *DoLogic) Do(in *add.Req) (string, error) {
 	sqdxx.CBRXM = brinfo.CXM
 	sqdxx.CBRXB = brinfo.CXB
 	sqdxx.CBRNL = brinfo.CNL
-	sqdxx.DJLRQ = time.Now().Format(common.TemplateDateTime)
+	sqdxx.DJLRQ = common.Now
 	sqdxx.CYLH = brinfo.CYLH
 	sqdxx.DSJSJ = brinfo.DSJ
 	sqdxx.CJLRBM = brinfo.IYS

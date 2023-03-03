@@ -1,16 +1,14 @@
 package logic
 
 import (
-	pub "YxEmr/common"
+	"YxEmr/common"
 	"YxEmr/common/database"
-	"YxEmr/common/model/struct"
+	"YxEmr/common/pub"
+	"YxEmr/sqd/rpc/reg/internal/svc"
+	"YxEmr/sqd/rpc/reg/reg"
 	"context"
 	"errors"
 	"fmt"
-	"time"
-
-	"YxEmr/sqd/rpc/reg/internal/svc"
-	"YxEmr/sqd/rpc/reg/reg"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -31,25 +29,30 @@ func NewDoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DoLogic {
 
 func (l *DoLogic) Do(in *reg.Req) error {
 	var (
-		reg  _struct.Treginfo
+		sreg []pub.Treginfo
+		reg  pub.Treginfo
 		regs []interface{}
 		fsql string
 	)
 	db := l.svcCtx.DbEngin
+	if err := db.Where("CSQDH = ? ", in.Csqdh).Find(&sreg).Error; err != nil {
+		return err
+	}
 	for _, val := range in.Cztbm {
 		fsql += fmt.Sprintf("DELETE FROM TBREGSQDINFO WHERE CSQDH='%S' AND CZTBM='%S'", in.Csqdh, val)
 		if in.Ilx == 1 {
-			if err := db.Where("CSQDH = ? AND CZTBM = ?", in.Csqdh, val).Find(&reg).Error; err != nil {
-				return err
+			if len(sreg) != 0 {
+				for _, s := range sreg {
+					if s.CZTBM == val {
+						return errors.New(fmt.Sprintf("申请单[%s]中项目[%s]已被登记", in.Csqdh, val))
+					}
+				}
 			}
-			if (reg != _struct.Treginfo{}) {
-				return errors.New(fmt.Sprintf("申请单[%s]中项目[%s]已被登记", in.Csqdh, val))
-			}
-			reg = _struct.Treginfo{
+			reg = pub.Treginfo{
 				in.Cbrh,
 				in.Csqdh,
 				int(in.Ibrlx),
-				time.Now().Format(pub.TemplateDateTime),
+				common.Now,
 				val,
 			}
 			regs = append(regs, reg)

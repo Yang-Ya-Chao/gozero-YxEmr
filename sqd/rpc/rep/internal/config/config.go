@@ -9,7 +9,6 @@ import (
 type Config struct {
 	zrpc.RpcServerConf
 	DataSourceName string // 数据库连接
-    Log            logx.LogConf
-    DBLog          bool
-    Cache      cache.CacheConf    // 手动代码
+	Log            logx.LogConf
+	Cache          cache.CacheConf // 手动代码
 }

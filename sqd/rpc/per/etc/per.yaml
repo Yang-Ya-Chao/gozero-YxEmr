@@ -1,5 +1,12 @@
 Name: per.rpc
 ListenOn: 0.0.0.0:9004
-DataSourceName: server=192.168.200.66\cx1;user id=sa;password=123qwe,.;database=yxhis;encrypt=disable
+#DataSourceName: sqlserver://账号:密码@服务器?database=数据库&encrypt=disable
+DataSourceName: sqlserver://sa:123qwe,.@192.168.200.66/cx1?database=yxhis&encrypt=disable
+Log:
+  Mode: file
+#redis缓存
+Cache:
+  - Host: 127.0.0.1:6379
+# 直连服务注册key
 Endpoints:
   Key: per.rpc # 直连服务注册key

@@ -1,6 +1,7 @@
 package common
 
 import (
+	"YxEmr/common/database"
 	"fmt"
 	"regexp"
 	"strconv"
@@ -14,6 +15,45 @@ const (
 	TemplateDate     = "2006-01-02"          //其他类型
 	TemplateTime     = "15:04:05"            //其他类型
 )
+
+//通过申请单号获取申请单信息表名
+func GetTbSQDXX(ibrlx int64, csqdh, cbrh string) (string, string) {
+	tbname := ""
+	cbh := ""
+	switch ibrlx {
+	case 0:
+		{
+			if strings.Contains(csqdh, "JC") {
+				tbname = database.GetTBName("TBMZJCSQDXXWZX", cbrh)
+				cbh = csqdh[2:]
+			} else {
+				tbname = database.GetTBName("TBMZJYSQDXXWZX", cbrh)
+				if strings.Contains(csqdh, "JY") {
+					cbh = csqdh[2:]
+				}
+			}
+
+		}
+	case 1:
+		{
+			if strings.Contains(csqdh, "JC") {
+				tbname = database.GetTBName("TBZYJCSQDXXWZX", cbrh)
+				cbh = csqdh[2:]
+			} else {
+				tbname = database.GetTBName("TBZYJYSQDXXWZX", cbrh)
+				if strings.Contains(csqdh, "JY") {
+					cbh = csqdh[2:]
+				}
+			}
+		}
+	default:
+		return "", ""
+	}
+	return tbname, cbh
+}
+
+// 当前时间 string字符串 "2006-01-02 15:04:05"
+var Now = time.Now().Format(TemplateDateTime)
 
 // 时间类型
 type TDateTimes struct {

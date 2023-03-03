@@ -3,6 +3,8 @@ Host: 0.0.0.0
 Port: 8000
 #开单
 Add:
+  #使用nacos发现服务
+  #Target: nacos://127.0.0.1:8848/add.rpc?namespaceid=public&timeout=5000s
   NonBlock: false
   Endpoints:
     - 127.0.0.1:9000

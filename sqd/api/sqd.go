@@ -10,6 +10,8 @@ import (
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
+	//使用nacos发现服务
+	_ "github.com/zeromicro/zero-contrib/zrpc/registry/nacos"
 )
 
 var configFile = flag.String("f", "etc/sqd-api.yaml", "the config file")

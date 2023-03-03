@@ -24,18 +24,18 @@ func NewReperServer(svcCtx *svc.ServiceContext) *ReperServer {
 
 func (s *ReperServer) Do(ctx context.Context, in *rep.Req) (*rep.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
-	if resp, err := l.Do(in); err != nil {
+	if  err := l.Do(in); err != nil {
 		l.Logger.Error(err)
-		return &*rep.Resp{
+		return &rep.Resp{
 			Code: 0,
 			Msg:  err.Error(),
 			Data: "",
 		}, nil
 	} else {
-		return &*rep.Resp{
+		return &rep.Resp{
 			Code: 1,
 			Msg:  "成功",
-			Data: resp,
+			Data: "",
 		}, nil
 	}
 
