@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/jinzhu/copier v0.3.5
+	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/zeromicro/go-zero v1.4.4
 	github.com/zeromicro/zero-contrib/zrpc/registry/nacos v0.0.0-20230212061721-86dbe4a9e613
 	google.golang.org/grpc v1.53.0
@@ -21,7 +22,6 @@ require (
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/felixge/fgprof v0.9.3 // indirect

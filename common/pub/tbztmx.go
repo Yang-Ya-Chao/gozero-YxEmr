@@ -1,6 +1,7 @@
 package pub
 
 import (
+	"YxEmr/common/cache"
 	"YxEmr/common/database"
 	"errors"
 )
@@ -26,18 +27,18 @@ func (u Tztmx) TableName() string {
 
 var cacheZtmxkey = "TZtmx:CZTBM:"
 
-func GetZtmx(cztbm, isfxmzl string) (*[]Tztmx, error) {
+func GetZtmx(cztbm, isfxmzl string) (interface{}, error) {
 	cachekey := cacheZtmxkey + cztbm + ":" + isfxmzl
 	var ztmxs []Tztmx
-	if database.Cache.IsNotFound(database.Cache.Get(cachekey, &ztmxs)) {
-		if err := database.Db.Where("CZTBM = ? AND ISFXMZL <> ?", cztbm, isfxmzl).Find(&ztmxs).Error; err != nil {
+	return cache.Take(cachekey, func() (interface{}, error) {
+		if err := database.Db.Where("CZTBM = ? AND ISFXMZL <> ?",
+			cztbm, isfxmzl).Find(&ztmxs).Error; err != nil {
 			return nil, err
 		}
-		database.Cache.Set(cachekey, &ztmxs)
-	}
-	if len(ztmxs) == 0 {
-		return nil, errors.New("未查询到相关组套数据")
-	}
-	return &ztmxs, nil
+		if len(ztmxs) == 0 {
+			return nil, errors.New("未查询到相关组套数据")
+		}
+		return &ztmxs, nil
+	})
 
 }

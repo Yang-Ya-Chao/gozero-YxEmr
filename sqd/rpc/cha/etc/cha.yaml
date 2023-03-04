@@ -4,8 +4,8 @@ ListenOn: 0.0.0.0:9003
 DataSourceName: sqlserver://sa:123qwe,.@192.168.200.66/cx1?database=yxhis&encrypt=disable
 Log:
   Mode: file
-#redis缓存
-Cache:
-  - Host: 127.0.0.1:6379
 Endpoints:
   Key: cha.rpc # 直连服务注册key
+#redis缓存
+#Cache:
+#  - Host: 127.0.0.1:6379

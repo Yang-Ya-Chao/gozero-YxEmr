@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"YxEmr/sqd/rpc/reg/reger"
 	"context"
 
 	"YxEmr/sqd/api/internal/svc"
@@ -24,7 +25,20 @@ func NewRegLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegLogic {
 }
 
 func (l *RegLogic) Reg(req *types.Regreq) (resp *types.Resp, err error) {
-	// todo: add your logic here and delete this line
+	/// 手动代码开始
+	r, err := l.svcCtx.Reger.Do(l.ctx, &reger.Req{
+		Ilx:   req.Ilx,
+		Ibrlx: req.Ibrlx,
+		Cbrh:  req.Cbrh,
+		Csqdh: req.Csqdh,
+		Cztbm: req.Cztbm,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.Resp{
+		Data: r.Data,
+	}, nil
+	// 手动代码结束
 }

@@ -1,6 +1,7 @@
 package database
 
 import (
+	"YxEmr/common/cache"
 	"fmt"
 )
 
@@ -21,14 +22,14 @@ func GetXTCS(name, value interface{}) interface{} {
 			" union all '"+
 			" SELECT cvalue From TBUSERPARAM WHERE CSTATUS=1 AND CNBMC='%s' ",
 		name, name)
-	if Cache.IsNotFound(Cache.Get(key, &ret)) {
+	ret, _ = cache.Take(key, func() (interface{}, error) {
 		if err := Db.Raw(CSQL).Scan(&cxtcs).Error; (err != nil) || (cxtcs.Value == "") {
 			ret = value
 		} else {
 			ret = cxtcs.Value
 		}
-		Cache.Set(key, &ret)
-	}
+		return ret, nil
+	})
 	return ret
 
 }

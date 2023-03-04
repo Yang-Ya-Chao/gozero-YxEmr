@@ -34,7 +34,7 @@ func (s *ChaerServer) Do(ctx context.Context, in *cha.Req) (*cha.Resp, error) {
 	} else {
 		return &cha.Resp{
 			Code: 1,
-			Msg:  "成功",
+			Msg:  "ok",
 			Data: "",
 		}, nil
 	}

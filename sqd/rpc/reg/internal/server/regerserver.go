@@ -26,15 +26,15 @@ func (s *RegerServer) Do(ctx context.Context, in *reg.Req) (*reg.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
 	if err := l.Do(in); err != nil {
 		l.Logger.Error(err)
-		return &del.Resp{
+		return &reg.Resp{
 			Code: 0,
 			Msg:  err.Error(),
 			Data: "",
 		}, nil
 	} else {
-		return &del.Resp{
+		return &reg.Resp{
 			Code: 1,
-			Msg:  "成功",
+			Msg:  "ok",
 			Data: "",
 		}, nil
 	}

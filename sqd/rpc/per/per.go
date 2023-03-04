@@ -33,7 +33,23 @@ func main() {
 		}
 	})
 	defer s.Stop()
+	// 注册nacos服务
+	//sc := []constant.ServerConfig{
+	//	*constant.NewServerConfig("127.0.0.1", 8848),
+	//}
+	//
+	//cc := &constant.ClientConfig{
+	//	NamespaceId:         "public",
+	//	TimeoutMs:           50000,
+	//	NotLoadCacheAtStart: true,
+	//	LogDir:              "runtime/nacos/log",
+	//	CacheDir:            "runtime/nacos/cache",
+	//	LogLevel:            "debug",
+	//}
+	//
+	//opts := nacos.NewNacosConfig(c.Name, c.ListenOn, sc, cc)
+	//_ = nacos.RegisterService(opts)
 
-	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
+	fmt.Printf("Starting %s server at %s...\n", c.Name, c.ListenOn)
 	s.Start()
 }

@@ -44,6 +44,8 @@ func (l *DoLogic) Do(in *add.Req) (string, error) {
 		sqdxxs           []interface{}
 		mbmxs            *[]pub.Tmbmx
 		ztmxs            *[]pub.Tztmx
+		tmp              interface{}
+		ok               bool
 	)
 	switch in.Ibrlx {
 	case 0:
@@ -74,7 +76,10 @@ func (l *DoLogic) Do(in *add.Req) (string, error) {
 	tbmx = strings.ReplaceAll(tbxx, "XX", "MX")
 	tbxm = strings.ReplaceAll(tbxx, "XX", "XM")
 	var err error
-	if mbmxs, err = pub.GetMbmx(in.Cmbbh); err != nil {
+	if tmp, err = pub.GetMbmx(in.Cmbbh); err != nil {
+		return "", err
+	}
+	if mbmxs, ok = tmp.(*[]pub.Tmbmx); !ok {
 		return "", err
 	}
 	if csqdbh, err = database.Getsysnumber("0024", 1, "00"); csqdbh == "" {
@@ -164,7 +169,10 @@ func (l *DoLogic) Do(in *add.Req) (string, error) {
 			return "", errors.New("模板[" + in.Cmbbh + "]与组套项目[" + val + "]未绑定！")
 		}
 		CYZNR = CYZNR + " " + tmpmbmx.CSFXMMC
-		if ztmxs, err = pub.GetZtmx(val, csfxmzl); err != nil {
+		if tmp, err = pub.GetZtmx(val, csfxmzl); err != nil {
+			return "", err
+		}
+		if ztmxs, ok = tmp.(*[]pub.Tztmx); !ok {
 			return "", err
 		}
 		for _, u := range *ztmxs {

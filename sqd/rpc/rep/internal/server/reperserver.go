@@ -34,7 +34,7 @@ func (s *ReperServer) Do(ctx context.Context, in *rep.Req) (*rep.Resp, error) {
 	} else {
 		return &rep.Resp{
 			Code: 1,
-			Msg:  "成功",
+			Msg:  "ok",
 			Data: "",
 		}, nil
 	}

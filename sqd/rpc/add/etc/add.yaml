@@ -8,5 +8,5 @@ Log:
 Endpoints:
   Key: add.rpc
 #redis缓存
-Cache:
-  - Host: 127.0.0.1:6379
+#Cache:
+#  - Host: 127.0.0.1:6379

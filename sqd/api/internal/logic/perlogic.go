@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"YxEmr/sqd/rpc/per/perer"
 	"context"
 
 	"YxEmr/sqd/api/internal/svc"
@@ -24,7 +25,20 @@ func NewPerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PerLogic {
 }
 
 func (l *PerLogic) Per(req *types.Perreq) (resp *types.Resp, err error) {
-	// todo: add your logic here and delete this line
+	/// 手动代码开始
+	r, err := l.svcCtx.Perer.Do(l.ctx, &perer.Req{
+		Ilx:   req.Ilx,
+		Ibrlx: req.Ibrlx,
+		Cbrh:  req.Cbrh,
+		Csqdh: req.Csqdh,
+		Cztbm: req.Cztbm,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return
+	return &types.Resp{
+		Data: r.Data,
+	}, nil
+	// 手动代码结束
 }

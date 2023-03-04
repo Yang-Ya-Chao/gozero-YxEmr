@@ -1,6 +1,7 @@
 package pub
 
 import (
+	"YxEmr/common/cache"
 	"YxEmr/common/database"
 	"errors"
 )
@@ -75,17 +76,17 @@ var cacheMzbrkey = "Tmzbr:CMZH:"
 func GetMzbr(key string) (interface{}, error) {
 	cachekey := cacheMzbrkey + key
 	var mzbr Tmzbr
-	if database.Cache.IsNotFound(database.Cache.Get(cachekey, &mzbr)) {
+	return cache.Take(cachekey, func() (interface{}, error) {
 		if err := database.Db.Table(database.GetTBName("TBMZGHMX", key)).Where("CMZH = ?",
 			key).Find(&mzbr).Error; err != nil {
 			return nil, err
 		}
-		database.Cache.Set(cachekey, &mzbr)
-	}
-	if (mzbr == Tmzbr{}) {
-		return nil, errors.New("未找到病人数据")
-	}
-	return &mzbr, nil
+		if (mzbr == Tmzbr{}) {
+			return nil, errors.New("未找到病人数据")
+		}
+		return &mzbr, nil
+	})
+
 }
 
 var cacheZybrkey = "Tzybr:CZYH:"
@@ -93,16 +94,15 @@ var cacheZybrkey = "Tzybr:CZYH:"
 func GetZybr(key string) (interface{}, error) {
 	cachekey := cacheZybrkey + key
 	var zybr Tzybr
-	if database.Cache.IsNotFound(database.Cache.Get(cachekey, &zybr)) {
-		if err := database.Db.Where("czyh = ?",
+	return cache.Take(cachekey, func() (interface{}, error) {
+		if err := database.Db.Where("CZYH = ?",
 			key).Find(&zybr).Error; err != nil {
 			return nil, err
 		}
-		database.Cache.Set(cachekey, &zybr)
-	}
-	if (zybr == Tzybr{}) {
-		return nil, errors.New("未找到病人数据")
-	}
-	return &zybr, nil
+		if (zybr == Tzybr{}) {
+			return nil, errors.New("未找到病人数据")
+		}
+		return &zybr, nil
+	})
 
 }

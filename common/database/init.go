@@ -1,9 +1,7 @@
 package database
 
 import (
-	"errors"
-	"github.com/zeromicro/go-zero/core/stores/cache"
-	"github.com/zeromicro/go-zero/core/syncx"
+	"YxEmr/common/cache"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -15,16 +13,14 @@ import (
 
 // 只在database中使用
 var (
-	Db    *gorm.DB
-	Cache cache.Cache
+	Db *gorm.DB
 )
 
 type Pubin struct {
-	Dns   string
-	Cache cache.CacheConf
+	Dns string
 }
 
-func Initdb(in Pubin) (*gorm.DB, cache.Cache) {
+func Initdb(in Pubin) *gorm.DB {
 	var err error
 	if Db, err = gorm.Open(sqlserver.Open(in.Dns), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
@@ -47,11 +43,13 @@ func Initdb(in Pubin) (*gorm.DB, cache.Cache) {
 	sqlDB, _ := Db.DB()
 	sqlDB.SetMaxIdleConns(10)
 	sqlDB.SetMaxOpenConns(100)
-	Cache = cache.New(
-		in.Cache,
-		syncx.NewSingleFlight(),
-		cache.NewStat("dc"),
-		errors.New("CacheNotFound"),
-		cache.WithExpiry(5*time.Second))
-	return Db, Cache
+	//Cache = cache.New(
+	//	in.Cache,
+	//	syncx.NewSingleFlight(),
+	//	cache.NewStat("dc"),
+	//	errors.New("CacheNotFound"),
+	//	cache.WithExpiry(5*time.Second))
+	//return Db, Cache
+	cache.Init()
+	return Db
 }

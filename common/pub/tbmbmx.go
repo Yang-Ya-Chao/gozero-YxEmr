@@ -1,6 +1,7 @@
 package pub
 
 import (
+	"YxEmr/common/cache"
 	"YxEmr/common/database"
 	"errors"
 )
@@ -25,18 +26,19 @@ func (u Tmbmx) TableName() string {
 
 var cacheMbmxkey = "Tmbmx:CMBBH:"
 
-func GetMbmx(key string) (*[]Tmbmx, error) {
+func GetMbmx(key string) (interface{}, error) {
 	cachekey := cacheMbmxkey + key
 	var mbmxs []Tmbmx
-	if database.Cache.IsNotFound(database.Cache.Get(cachekey, &mbmxs)) {
-		if err := database.Db.Where("CMBBH = ?", key).Find(&mbmxs).Error; err != nil {
+
+	return cache.Take(cachekey, func() (interface{}, error) {
+		if err := database.Db.Where("CMBBH = ?",
+			key).Find(&mbmxs).Error; err != nil {
 			return nil, err
 		}
-		database.Cache.Set(cachekey, &mbmxs)
-	}
-	if len(mbmxs) == 0 {
-		return nil, errors.New("未查询到相关模板数据")
-	}
-	return &mbmxs, nil
+		if len(mbmxs) == 0 {
+			return nil, errors.New("未查询到相关模板数据")
+		}
+		return &mbmxs, nil
+	})
 
 }

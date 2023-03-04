@@ -34,7 +34,7 @@ func (s *AdderServer) Do(ctx context.Context, in *add.Req) (*add.Resp, error) {
 	} else {
 		return &add.Resp{
 			Code: 1,
-			Msg:  "成功",
+			Msg:  "ok",
 			Data: csqdh,
 		}, nil
 	}

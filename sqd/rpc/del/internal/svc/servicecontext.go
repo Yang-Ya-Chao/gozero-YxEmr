@@ -16,13 +16,11 @@ type ServiceContext struct {
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	logx.MustSetup(c.Log)
-	db, ca := database.Initdb(database.Pubin{
+	db := database.Initdb(database.Pubin{
 		c.DataSourceName,
-		c.Cache,
 	})
 	return &ServiceContext{
 		Config:  c,
 		DbEngin: db,
-		Cache:   ca,
 	}
 }

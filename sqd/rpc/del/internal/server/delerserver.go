@@ -34,7 +34,7 @@ func (s *DelerServer) Do(ctx context.Context, in *del.Req) (*del.Resp, error) {
 	} else {
 		return &del.Resp{
 			Code: 1,
-			Msg:  "成功",
+			Msg:  "ok",
 			Data: "",
 		}, nil
 	}

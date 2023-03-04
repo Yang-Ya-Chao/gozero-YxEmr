@@ -34,7 +34,7 @@ func (s *PererServer) Do(ctx context.Context, in *per.Req) (*per.Resp, error) {
 	} else {
 		return &per.Resp{
 			Code: 1,
-			Msg:  "成功",
+			Msg:  "ok",
 			Data: "",
 		}, nil
 	}

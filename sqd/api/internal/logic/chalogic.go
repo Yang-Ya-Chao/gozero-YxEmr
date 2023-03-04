@@ -40,8 +40,6 @@ func (l *ChaLogic) Cha(req *types.Chareq) (resp *types.Resp, err error) {
 	}
 
 	return &types.Resp{
-		Code: r.Code,
-		Msg:  r.Msg,
 		Data: r.Data,
 	}, nil
 	// 手动代码结束

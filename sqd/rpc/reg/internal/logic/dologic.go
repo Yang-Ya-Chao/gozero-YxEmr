@@ -4,6 +4,7 @@ import (
 	"YxEmr/common"
 	"YxEmr/common/database"
 	"YxEmr/common/pub"
+	"YxEmr/sqd/rpc/per/perer"
 	"YxEmr/sqd/rpc/reg/internal/svc"
 	"YxEmr/sqd/rpc/reg/reg"
 	"context"
@@ -59,6 +60,21 @@ func (l *DoLogic) Do(in *reg.Req) error {
 		}
 	}
 	fsql += database.GetBranchInsertSql(regs, "TBREGSQDINFO")
+	//调用per.rpc执行
+	r, err := l.svcCtx.Perer.Do(l.ctx, &perer.Req{
+		Ilx:   in.Ilx,
+		Ibrlx: in.Ibrlx,
+		Cbrh:  in.Cbrh,
+		Csqdh: in.Csqdh,
+		Cztbm: in.Cztbm,
+	})
+	if err != nil {
+		return err
+	}
+	if r.Code == 0 {
+		return errors.New(r.Msg)
+	}
+	// 手动代码结束
 	if err := database.Exesql(fsql); err != nil {
 		return err
 	}
