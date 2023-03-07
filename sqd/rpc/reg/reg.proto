@@ -12,9 +12,7 @@ message Req {
 }
 
 message Resp {
-  int64 Code = 1;
-  string Msg = 2;
-  string Data = 3;
+  string Data = 1;
 }
 
 service reger {

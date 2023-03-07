@@ -24,18 +24,9 @@ func NewDelerServer(svcCtx *svc.ServiceContext) *DelerServer {
 
 func (s *DelerServer) Do(ctx context.Context, in *del.Req) (*del.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
-	if err := l.Do(in); err != nil {
+	_,err := l.Do(in)
+	if err != nil {
 		l.Logger.Error(err)
-		return &del.Resp{
-			Code: 0,
-			Msg:  err.Error(),
-			Data: "",
-		}, nil
-	} else {
-		return &del.Resp{
-			Code: 1,
-			Msg:  "ok",
-			Data: "",
-		}, nil
 	}
+	return &del.Resp{},err
 }

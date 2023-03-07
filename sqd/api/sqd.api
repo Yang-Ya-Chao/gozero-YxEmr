@@ -54,9 +54,7 @@ type perreq {
 	Cztbm []string `json:"cztbm"`
 }
 type resp {
-	Code int64       `json:"code"`
-	Msg  string      `json:"msg"`
-	Data interface{} `json:"data"`
+
 }
 
 //报告

@@ -23,9 +23,9 @@ func NewDoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DoLogic {
 	}
 }
 
-func (l *DoLogic) Do(in *cha.Req) (error) {
+func (l *DoLogic) Do(in *cha.Req) (*cha.Resp, error) {
 	db := l.svcCtx.DbEngin
 	db.Debug()
 
-	return nil
+	return nil, nil
 }

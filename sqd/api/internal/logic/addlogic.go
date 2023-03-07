@@ -1,8 +1,10 @@
 package logic
 
 import (
+	"YxEmr/common/xerr"
 	"YxEmr/sqd/rpc/add/adder"
 	"context"
+	"github.com/pkg/errors"
 
 	"YxEmr/sqd/api/internal/svc"
 	"YxEmr/sqd/api/internal/types"
@@ -24,7 +26,7 @@ func NewAddLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddLogic {
 	}
 }
 
-func (l *AddLogic) Add(req *types.Addreq) (resp *types.Resp, err error) {
+func (l *AddLogic) Add(req *types.Addreq) (resp string, err error) {
 	/// 手动代码开始
 	r, err := l.svcCtx.Adder.Do(l.ctx, &adder.Req{
 		Isqlx: req.Isqlx,
@@ -34,13 +36,11 @@ func (l *AddLogic) Add(req *types.Addreq) (resp *types.Resp, err error) {
 		Cztbm: req.Cztbm,
 	})
 	if err != nil {
-		return nil, err
+		logx.Error(err)
+		return "", errors.Wrapf(xerr.NewErrMsg("开单失败"),
+			"开单失败: req: %+v , err : %v ", req, err)
 	}
 
-	return &types.Resp{
-		Code: r.Code,
-		Msg:  r.Msg,
-		Data: r.Data,
-	}, nil
+	return r.Data, nil
 	// 手动代码结束
 }

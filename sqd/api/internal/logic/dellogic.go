@@ -1,11 +1,13 @@
 package logic
 
 import (
-	"YxEmr/sqd/rpc/del/deler"
-	"context"
-
+	"YxEmr/common/xerr"
 	"YxEmr/sqd/api/internal/svc"
 	"YxEmr/sqd/api/internal/types"
+	"YxEmr/sqd/rpc/del/del"
+	"YxEmr/sqd/rpc/del/deler"
+	"context"
+	"github.com/pkg/errors"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +26,7 @@ func NewDelLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelLogic {
 	}
 }
 
-func (l *DelLogic) Del(req *types.Delreq) (resp *types.Resp, err error) {
+func (l *DelLogic) Del(req *types.Delreq) (resp *del.Resp, err error) {
 	/// 手动代码开始
 	r, err := l.svcCtx.Deler.Do(l.ctx, &deler.Req{
 		Isqlx: req.Isqlx,
@@ -33,11 +35,9 @@ func (l *DelLogic) Del(req *types.Delreq) (resp *types.Resp, err error) {
 		Csqdh: req.Csqdh,
 	})
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrapf(xerr.NewErrMsg("撤单失败"),
+			"撤单失败: req: %+v , err : %v ", req, err)
 	}
 
-	return &types.Resp{
-		Data: r.Data,
-	}, nil
-	// 手动代码结束
+	return r, nil
 }

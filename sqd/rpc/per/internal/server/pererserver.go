@@ -24,18 +24,9 @@ func NewPererServer(svcCtx *svc.ServiceContext) *PererServer {
 
 func (s *PererServer) Do(ctx context.Context, in *per.Req) (*per.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
-	if err := l.Do(in); err != nil {
+	_,err := l.Do(in)
+	if err != nil {
 		l.Logger.Error(err)
-		return &per.Resp{
-			Code: 0,
-			Msg:  err.Error(),
-			Data: "",
-		}, nil
-	} else {
-		return &per.Resp{
-			Code: 1,
-			Msg:  "ok",
-			Data: "",
-		}, nil
 	}
+	return &per.Resp{},err
 }

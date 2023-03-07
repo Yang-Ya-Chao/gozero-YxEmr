@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"YxEmr/common/result"
 	"net/http"
 
 	"YxEmr/sqd/api/internal/logic"
@@ -13,16 +14,12 @@ func DelHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.Delreq
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			result.ParamErrorResult(r, w, err)
 			return
 		}
 
 		l := logic.NewDelLogic(r.Context(), svcCtx)
 		resp, err := l.Del(&req)
-		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
-		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
-		}
+		result.HttpResult(r, w, resp, err)
 	}
 }

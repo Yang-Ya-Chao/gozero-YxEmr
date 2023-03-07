@@ -31,9 +31,9 @@ func Initdb(in Pubin) *gorm.DB {
 		Logger: logger.New(
 			log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer
 			logger.Config{
-				SlowThreshold: time.Second,  // 慢 SQL 阈值
-				LogLevel:      logger.Error, // Log level
-				Colorful:      true,         // 禁用彩色打印
+				SlowThreshold: time.Second, // 慢 SQL 阈值
+				LogLevel:      logger.Info, // Log level
+				Colorful:      true,        // 禁用彩色打印
 			},
 		), //常常使用gorm默认日志 并设置日志级别
 	}); err != nil {

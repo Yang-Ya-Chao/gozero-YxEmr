@@ -10,4 +10,5 @@ type Config struct {
 	DataSourceName string // 数据库连接
 	Log            logx.LogConf
 	Per            zrpc.RpcClientConf
+	Dtm            string
 }

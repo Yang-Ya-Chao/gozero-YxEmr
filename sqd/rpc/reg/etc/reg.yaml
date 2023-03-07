@@ -7,9 +7,12 @@ Log:
 #redis缓存
 #Cache:
 #  - Host: 127.0.0.1:6379
+#服务注册地址--直连服务注册key
 Endpoints:
-  Key: reg.rpc # 直连服务注册key
+  Key: reg.rpc
 #收费
+#dtm
+Dtm: localhost:36790
 Cha:
   NonBlock: True
   Endpoints:

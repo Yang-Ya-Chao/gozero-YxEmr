@@ -23,8 +23,8 @@ func NewDoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DoLogic {
 	}
 }
 
-func (l *DoLogic) Do(in *rep.Req) error {
+func (l *DoLogic) Do(in *rep.Req) (*rep.Resp, error) {
 	// todo: add your logic here and delete this line
 	//db := l.svcCtx.DbEngin
-	return nil
+	return nil, nil
 }

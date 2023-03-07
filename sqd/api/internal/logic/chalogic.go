@@ -1,11 +1,13 @@
 package logic
 
 import (
-	"YxEmr/sqd/rpc/cha/chaer"
-	"context"
-
+	"YxEmr/common/xerr"
 	"YxEmr/sqd/api/internal/svc"
 	"YxEmr/sqd/api/internal/types"
+	"YxEmr/sqd/rpc/cha/cha"
+	"YxEmr/sqd/rpc/cha/chaer"
+	"context"
+	"github.com/pkg/errors"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +26,7 @@ func NewChaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ChaLogic {
 	}
 }
 
-func (l *ChaLogic) Cha(req *types.Chareq) (resp *types.Resp, err error) {
+func (l *ChaLogic) Cha(req *types.Chareq) (resp *cha.Resp, err error) {
 	/// 手动代码开始
 	r, err := l.svcCtx.Chaer.Do(l.ctx, &chaer.Req{
 		Ilx:   req.Ilx,
@@ -36,11 +38,9 @@ func (l *ChaLogic) Cha(req *types.Chareq) (resp *types.Resp, err error) {
 		Cztbm: req.Cztbm,
 	})
 	if err != nil {
-		return nil, err
+		return r, errors.Wrapf(xerr.NewErrMsg("计费失败"),
+			"计费失败: req: %+v , err : %v ", req, err)
 	}
 
-	return &types.Resp{
-		Data: r.Data,
-	}, nil
-	// 手动代码结束
+	return r, nil
 }

@@ -28,7 +28,7 @@ func NewDoLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DoLogic {
 	}
 }
 
-func (l *DoLogic) Do(in *del.Req) error {
+func (l *DoLogic) Do(in *del.Req) (*del.Resp, error) {
 	db := l.svcCtx.DbEngin
 	var (
 		tbmx, tbxx, tbxm string
@@ -48,22 +48,22 @@ func (l *DoLogic) Do(in *del.Req) error {
 	tbmx = strings.ReplaceAll(tbxx, "XX", "MX")
 	tbxm = strings.ReplaceAll(tbxx, "XX", "XM")
 	if err := db.Table(tbxx).Where("CBH = ?", in.Csqdh).Find(&sqdxx).Error; err != nil {
-		return err
+		return nil, err
 	}
 	if (sqdxx == pub.Tsqdxx{}) {
-		return errors.New("未查询到相关申请单数据")
+		return nil, errors.New("未查询到相关申请单数据")
 	}
 	switch sqdxx.ISFZT {
 	case 1, 2:
 		{
-			return errors.New("申请单已收费，不允许撤销")
+			return nil, errors.New("申请单已收费，不允许撤销")
 		}
 	}
 	fsql := "Delete From " + tbxx + " Where CBH=" + common.QuoteStr(in.Csqdh)
 	fsql += "Delete From " + tbxm + " Where CBH=" + common.QuoteStr(in.Csqdh)
 	fsql += "Delete From " + tbmx + " Where CBH=" + common.QuoteStr(in.Csqdh)
 	if err := database.Exesql(fsql); err != nil {
-		return err
+		return nil, err
 	}
-	return nil
+	return nil, nil
 }

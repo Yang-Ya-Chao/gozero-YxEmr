@@ -24,18 +24,9 @@ func NewChaerServer(svcCtx *svc.ServiceContext) *ChaerServer {
 
 func (s *ChaerServer) Do(ctx context.Context, in *cha.Req) (*cha.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
-	if err := l.Do(in); err != nil {
+	_,err := l.Do(in)
+	if err != nil {
 		l.Logger.Error(err)
-		return &cha.Resp{
-			Code: 0,
-			Msg:  err.Error(),
-			Data: "",
-		}, nil
-	} else {
-		return &cha.Resp{
-			Code: 1,
-			Msg:  "ok",
-			Data: "",
-		}, nil
 	}
+	return &cha.Resp{},err
 }

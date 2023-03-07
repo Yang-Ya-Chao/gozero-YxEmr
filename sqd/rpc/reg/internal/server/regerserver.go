@@ -24,18 +24,9 @@ func NewRegerServer(svcCtx *svc.ServiceContext) *RegerServer {
 
 func (s *RegerServer) Do(ctx context.Context, in *reg.Req) (*reg.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
-	if err := l.Do(in); err != nil {
+	_,err := l.Do(in)
+	if err != nil {
 		l.Logger.Error(err)
-		return &reg.Resp{
-			Code: 0,
-			Msg:  err.Error(),
-			Data: "",
-		}, nil
-	} else {
-		return &reg.Resp{
-			Code: 1,
-			Msg:  "ok",
-			Data: "",
-		}, nil
 	}
+	return &reg.Resp{},err
 }

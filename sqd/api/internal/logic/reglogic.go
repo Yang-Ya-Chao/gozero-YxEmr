@@ -1,11 +1,13 @@
 package logic
 
 import (
-	"YxEmr/sqd/rpc/reg/reger"
-	"context"
-
+	"YxEmr/common/xerr"
 	"YxEmr/sqd/api/internal/svc"
 	"YxEmr/sqd/api/internal/types"
+	"YxEmr/sqd/rpc/reg/reg"
+	"YxEmr/sqd/rpc/reg/reger"
+	"context"
+	"github.com/pkg/errors"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -24,7 +26,7 @@ func NewRegLogic(ctx context.Context, svcCtx *svc.ServiceContext) *RegLogic {
 	}
 }
 
-func (l *RegLogic) Reg(req *types.Regreq) (resp *types.Resp, err error) {
+func (l *RegLogic) Reg(req *types.Regreq) (resp *reg.Resp, err error) {
 	/// 手动代码开始
 	r, err := l.svcCtx.Reger.Do(l.ctx, &reger.Req{
 		Ilx:   req.Ilx,
@@ -34,11 +36,10 @@ func (l *RegLogic) Reg(req *types.Regreq) (resp *types.Resp, err error) {
 		Cztbm: req.Cztbm,
 	})
 	if err != nil {
-		return nil, err
+		return r, errors.Wrapf(xerr.NewErrMsg("登记失败"),
+			"登记失败: req: %+v , err : %v ", req, err)
 	}
 
-	return &types.Resp{
-		Data: r.Data,
-	}, nil
-	// 手动代码结束
+	return r, nil
+	//手动代码结束
 }
