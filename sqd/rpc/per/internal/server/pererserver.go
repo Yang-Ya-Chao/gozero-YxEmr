@@ -5,6 +5,8 @@ package server
 
 import (
 	"context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 
 	"YxEmr/sqd/rpc/per/internal/logic"
 	"YxEmr/sqd/rpc/per/internal/svc"
@@ -24,9 +26,20 @@ func NewPererServer(svcCtx *svc.ServiceContext) *PererServer {
 
 func (s *PererServer) Do(ctx context.Context, in *per.Req) (*per.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
-	_,err := l.Do(in)
+	r,err := l.Do(in)
 	if err != nil {
 		l.Logger.Error(err)
+		err = status.Error(codes.Aborted, err.Error())
 	}
-	return &per.Resp{},err
+	return r,err
+}
+
+func (s *PererServer) Co(ctx context.Context, in *per.Req) (*per.Resp, error) {
+	l := logic.NewCoLogic(ctx, s.svcCtx)
+	r,err := l.Co(in)
+	if err != nil {
+		l.Logger.Error(err)
+		err = status.Error(codes.Aborted, err.Error())
+	}
+	return r,err
 }

@@ -4,17 +4,22 @@ package per;
 option go_package="./per";
 
 message Req {
-  int64 Ilx = 1;
-  int64 Ibrlx = 2;
-  string Cbrh = 3;
-  string Csqdh = 4;
-  repeated string Cztbm  = 5;
+  int64 Ibrlx = 1;
+  string Cbrh = 2;
+  string Csqdh = 3;
+  repeated string Cztbm  = 4;
 }
 
 message Resp {
-  string Data = 1;
+
 }
 
 service perer {
   rpc Do(Req) returns(Resp);
+  rpc Co(Req) returns(Resp);
 }
+
+//使用YxEmr模板生成
+//goctl rpc protoc per.proto --go_out=. --go-grpc_out=. --zrpc_out=. --home D:/GoWork/src/YxEmr/$HOME/template
+//默认模板生成
+//goctl rpc protoc per.proto --go_out=. --go-grpc_out=. --zrpc_out=.

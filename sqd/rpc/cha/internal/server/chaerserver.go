@@ -30,3 +30,12 @@ func (s *ChaerServer) Do(ctx context.Context, in *cha.Req) (*cha.Resp, error) {
 	}
 	return &cha.Resp{},err
 }
+
+func (s *ChaerServer) Co(ctx context.Context, in *cha.Req) (*cha.Resp, error) {
+	l := logic.NewCoLogic(ctx, s.svcCtx)
+	_,err := l.Co(in)
+	if err != nil {
+		l.Logger.Error(err)
+	}
+	return &cha.Resp{},err
+}

@@ -2,15 +2,13 @@ syntax = "proto3";
 
 package cha;
 option go_package="./cha";
-//go:generate goctl rpc protoc add.proto --go_out=. --go-grpc_out=. --zrpc_out=.
 message Req {
-  int64 Ilx = 1;
-  int64 Ibrlx = 2;
-  string Cbrh = 3;
-  string Csfr = 4;
-  string Cylkh = 5 ;
-  string Csqdh = 6;
-  repeated string Cztbm  = 7;
+  int64 Ibrlx = 1;
+  string Cbrh = 2;
+  string Csfr = 3;
+  string Cylkh = 4 ;
+  string Csqdh = 5;
+  repeated string Cztbm  = 6;
 }
 
 message Resp {
@@ -19,4 +17,10 @@ message Resp {
 
 service chaer {
   rpc Do(Req) returns(Resp);
+  rpc Co(Req) returns(Resp);
 }
+
+//使用YxEmr模板生成
+//goctl rpc protoc cha.proto --go_out=. --go-grpc_out=. --zrpc_out=. --home D:/GoWork/src/YxEmr/$HOME/template
+//默认模板生成
+//goctl rpc protoc cha.proto --go_out=. --go-grpc_out=. --zrpc_out=.

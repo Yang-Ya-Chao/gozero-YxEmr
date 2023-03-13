@@ -16,7 +16,10 @@ message Resp {
 
 service reper {
   rpc Do(Req) returns(Resp);
+  rpc Co(Req) returns(Resp);
 }
 
-
+//使用YxEmr模板生成
 //goctl rpc protoc rep.proto --go_out=. --go-grpc_out=. --zrpc_out=. --home D:/GoWork/src/YxEmr/$HOME/template
+//默认模板生成
+//goctl rpc protoc rep.proto --go_out=. --go-grpc_out=. --zrpc_out=.

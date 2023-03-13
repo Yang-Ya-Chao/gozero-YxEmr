@@ -13,4 +13,5 @@ type Config struct {
 	Cha zrpc.RpcClientConf
 	Per zrpc.RpcClientConf
 	Rep zrpc.RpcClientConf
+	Dtm string
 }

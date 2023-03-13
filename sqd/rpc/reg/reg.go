@@ -34,6 +34,6 @@ func main() {
 	})
 	defer s.Stop()
 
-	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
+	fmt.Printf("Starting %s server at %s...\n", c.Name, c.ListenOn)
 	s.Start()
 }

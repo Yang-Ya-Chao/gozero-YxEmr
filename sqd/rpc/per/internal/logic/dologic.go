@@ -34,6 +34,7 @@ func (l *DoLogic) Do(in *per.Req) (*per.Resp, error) {
 		sqdxms         []pub.Tsqdxm
 		tbsqxx, tbsqxm string
 	)
+
 	//解析申请单号，JC开头的为检查，其他为检验
 	tbsqxx, in.Csqdh = database.GetTbSQDXX(in.Ibrlx, in.Csqdh, in.Cbrh)
 	if err := db.Table(tbsqxx).Where("CBH = ?", in.Csqdh).Find(&sqdxx).Error; err != nil {
@@ -42,30 +43,29 @@ func (l *DoLogic) Do(in *per.Req) (*per.Resp, error) {
 	if (sqdxx == pub.Tsqdxx{}) {
 		return nil, errors.New("未找到申请单信息数据")
 	}
-
 	switch {
 	//IZXZT--0:已经全部取消，1:已经全部执行 ，此时无需在执行直接返回成功即可
-	case sqdxx.IZXZT == int(in.Ilx):
+	case sqdxx.IZXZT == 1:
 		{
 			return nil, nil
 		}
-	case sqdxx.ISFZT == 0 && in.Ilx == 1:
+	case sqdxx.ISFZT == 0:
 		{
-			return nil, errors.New("申请单未收费,禁止执行")
+			return nil, errors.New("申请单未收费,禁止执行") //status.Error(codes.Aborted, dtmcli.ResultFailure) //
 		}
-	case sqdxx.ISFZT == 3 && in.Ilx == 1:
+	case sqdxx.ISFZT == 3:
 		{
 			return nil, errors.New("申请单已退费,禁止执行")
 		}
-	case sqdxx.IZXZT == 3 && in.Ilx == 1:
+	case sqdxx.IZXZT == 3:
 		{
 			return nil, errors.New("申请单不执行,禁止执行")
 		}
-	case sqdxx.IZXZT == 4 && in.Ilx == 1:
+	case sqdxx.IZXZT == 4:
 		{
 			return nil, errors.New("申请单已撤销,禁止执行")
 		}
-	case in.Ibrlx == 1 && !sqdxx.BQZ && in.Ilx == 1:
+	case in.Ibrlx == 1 && !sqdxx.BQZ:
 		{
 			return nil, errors.New("申请单未签字,禁止执行")
 		}
@@ -112,44 +112,20 @@ func (l *DoLogic) Do(in *per.Req) (*per.Resp, error) {
 		cyzxxm0 := sqxm.CINNERID + "=" + mbmx.CBGDMBBH + ":0"
 		//执行之后的cyzxxm
 		cyzxxm1 := sqxm.CINNERID + "=" + mbmx.CBGDMBBH + ":1"
-		switch in.Ilx {
-		case 0:
-			{ //取消
-				if !strings.Contains(sqdxx.CBGDBH, sqxm.CINNERID+"=|") {
-					return nil, errors.New("申请单项目[" + vztbm + "]已有报告,禁止取消")
-				}
-				sqdxx.CYZXXM = strings.Replace(sqdxx.CYZXXM, cyzxxm1, cyzxxm0, -1)
-			}
-		case 1:
-			{ //执行
-				if istatus != 2 {
-					return nil, errors.New("申请单项目[" + vztbm + "]未收费,禁止执行")
-				}
-				sqdxx.CYZXXM = strings.Replace(sqdxx.CYZXXM, cyzxxm0, cyzxxm1, -1)
-			}
-		default:
-			return nil, errors.New("操作类型错误")
+		if istatus != 2 {
+			return nil, errors.New("申请单项目[" + vztbm + "]未收费,禁止执行")
 		}
+		sqdxx.CYZXXM = strings.Replace(sqdxx.CYZXXM, cyzxxm0, cyzxxm1, -1)
+
 	}
 	//更新申请单执行状态--
-	switch in.Ilx {
-	case 0:
-		{ //取消执行时，yzxxm中还有:1的数据则为部分取消
-			if strings.Contains(sqdxx.CYZXXM, ":1") {
-				sqdxx.IZXZT = 2
-			} else {
-				sqdxx.IZXZT = 0
-			}
-		}
-	case 1:
-		{ //执行时，yzxxm中还有:0的数据则为部分执行
-			if strings.Contains(sqdxx.CYZXXM, ":0") {
-				sqdxx.IZXZT = 2
-			} else {
-				sqdxx.IZXZT = 1
-			}
-		}
+	//yzxxm中还有:0的数据则为部分执行
+	if strings.Contains(sqdxx.CYZXXM, ":0") {
+		sqdxx.IZXZT = 2
+	} else {
+		sqdxx.IZXZT = 1
 	}
+
 	if err := db.Table(tbsqxx).Select("*").Updates(&sqdxx).Error; err != nil {
 		return nil, err
 	}

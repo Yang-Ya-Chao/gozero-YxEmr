@@ -4,7 +4,6 @@ import (
 	"YxEmr/common/xerr"
 	"YxEmr/sqd/api/internal/svc"
 	"YxEmr/sqd/api/internal/types"
-	"YxEmr/sqd/rpc/cha/cha"
 	"YxEmr/sqd/rpc/cha/chaer"
 	"context"
 	"github.com/pkg/errors"
@@ -26,10 +25,9 @@ func NewChaLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ChaLogic {
 	}
 }
 
-func (l *ChaLogic) Cha(req *types.Chareq) (resp *cha.Resp, err error) {
+func (l *ChaLogic) Cha(req *types.Chareq) (resp *chaer.Resp, err error) {
 	/// 手动代码开始
-	r, err := l.svcCtx.Chaer.Do(l.ctx, &chaer.Req{
-		Ilx:   req.Ilx,
+	resp, err = l.svcCtx.Chaer.Do(l.ctx, &chaer.Req{
 		Ibrlx: req.Ibrlx,
 		Cbrh:  req.Cbrh,
 		Csfr:  req.Csfr,
@@ -38,9 +36,9 @@ func (l *ChaLogic) Cha(req *types.Chareq) (resp *cha.Resp, err error) {
 		Cztbm: req.Cztbm,
 	})
 	if err != nil {
-		return r, errors.Wrapf(xerr.NewErrMsg("计费失败"),
+		return nil, errors.Wrapf(xerr.NewErrMsg("计费失败"),
 			"计费失败: req: %+v , err : %v ", req, err)
 	}
 
-	return r, nil
+	return nil, nil
 }

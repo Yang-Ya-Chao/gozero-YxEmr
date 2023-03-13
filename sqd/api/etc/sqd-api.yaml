@@ -1,6 +1,8 @@
 Name: sqd-api
 Host: 0.0.0.0
 Port: 8000
+#dtm
+Dtm: localhost:36790
 #开单
 Add:
   #使用nacos发现服务

@@ -18,6 +18,7 @@ type (
 
 	Reger interface {
 		Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
+		Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
 	}
 
 	defaultReger struct {
@@ -34,4 +35,9 @@ func NewReger(cli zrpc.Client) Reger {
 func (m *defaultReger) Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
 	client := reg.NewRegerClient(m.cli.Conn())
 	return client.Do(ctx, in, opts...)
+}
+
+func (m *defaultReger) Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
+	client := reg.NewRegerClient(m.cli.Conn())
+	return client.Co(ctx, in, opts...)
 }

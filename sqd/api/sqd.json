@@ -1,0 +1,421 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/sqd/add": {
+      "post": {
+        "summary": "开单",
+        "operationId": "Add",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "开单",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addreq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    },
+    "/sqd/cha": {
+      "post": {
+        "summary": "计费",
+        "operationId": "Cha",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "收费",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/chareq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    },
+    "/sqd/chac": {
+      "post": {
+        "summary": "取消计费",
+        "operationId": "Chac",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "收费",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/chareq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    },
+    "/sqd/del": {
+      "post": {
+        "summary": "撤单",
+        "operationId": "Del",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "撤单",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/delreq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    },
+    "/sqd/per": {
+      "post": {
+        "summary": "执行",
+        "operationId": "Per",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "执行",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/perreq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    },
+    "/sqd/perc": {
+      "post": {
+        "summary": "取消执行",
+        "operationId": "Perc",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "执行",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/perreq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    },
+    "/sqd/reg": {
+      "post": {
+        "summary": "登记",
+        "operationId": "Reg",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "登记",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/regreq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    },
+    "/sqd/regc": {
+      "post": {
+        "summary": "取消登记",
+        "operationId": "Regc",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/resp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": "登记",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/regreq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "sqd-api"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "addreq": {
+      "type": "object",
+      "properties": {
+        "isqlx": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ibrlx": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cbrh": {
+          "type": "string"
+        },
+        "cmbbh": {
+          "type": "string"
+        },
+        "cztbm": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "addreq",
+      "required": [
+        "isqlx",
+        "ibrlx",
+        "cbrh",
+        "cmbbh",
+        "cztbm"
+      ]
+    },
+    "chareq": {
+      "type": "object",
+      "properties": {
+        "ibrlx": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cbrh": {
+          "type": "string"
+        },
+        "csfr": {
+          "type": "string"
+        },
+        "cylkh": {
+          "type": "string"
+        },
+        "csqdh": {
+          "type": "string"
+        },
+        "cztbm": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "chareq",
+      "required": [
+        "ibrlx",
+        "cbrh",
+        "csfr",
+        "cylkh",
+        "csqdh",
+        "cztbm"
+      ]
+    },
+    "delreq": {
+      "type": "object",
+      "properties": {
+        "isqlx": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ibrlx": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cbrh": {
+          "type": "string"
+        },
+        "csqdh": {
+          "type": "string"
+        }
+      },
+      "title": "delreq",
+      "required": [
+        "isqlx",
+        "ibrlx",
+        "cbrh",
+        "csqdh"
+      ]
+    },
+    "perreq": {
+      "type": "object",
+      "properties": {
+        "ibrlx": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cbrh": {
+          "type": "string"
+        },
+        "csqdh": {
+          "type": "string"
+        },
+        "cztbm": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "perreq",
+      "required": [
+        "ibrlx",
+        "cbrh",
+        "csqdh",
+        "cztbm"
+      ]
+    },
+    "regreq": {
+      "type": "object",
+      "properties": {
+        "ibrlx": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "cbrh": {
+          "type": "string"
+        },
+        "csqdh": {
+          "type": "string"
+        },
+        "cztbm": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "regreq",
+      "required": [
+        "ibrlx",
+        "cbrh",
+        "csqdh",
+        "cztbm"
+      ]
+    },
+    "resp": {
+      "type": "object",
+      "title": "resp"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

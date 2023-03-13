@@ -8,11 +8,12 @@ type ServiceContext struct {
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
-	return &ServiceContext{
-		Config:c,
-        DbEngin: database.Initdb(database.Pubin{
-        	c.DataSourceName,
-        	c.DBLog,
-        }),
+	logx.MustSetup(c.Log)
+    db := database.Initdb(database.Pubin{
+    	c.DataSourceName,
+    })
+    return &ServiceContext{
+    	Config:  c,
+    	DbEngin: db,
     }
 }

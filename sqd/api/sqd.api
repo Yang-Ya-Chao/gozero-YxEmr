@@ -1,4 +1,3 @@
-
 syntax = "v1"
 
 info (
@@ -7,7 +6,7 @@ info (
 	author: "yangyachao"
 	email: "2405414352@qq.com"
 )
-//go:generate goctl api go -api sqd.api -dir .
+
 //开单
 type addreq {
 	Isqlx int64    `json:"isqlx"`
@@ -27,7 +26,6 @@ type delreq {
 
 //登记
 type regreq {
-	Ilx   int64    `json:"ilx"`
 	Ibrlx int64    `json:"ibrlx"`
 	Cbrh  string   `json:"cbrh"`
 	Csqdh string   `json:"csqdh"`
@@ -36,7 +34,6 @@ type regreq {
 
 //收费
 type chareq {
-	Ilx   int64    `json:"ilx"`
 	Ibrlx int64    `json:"ibrlx"`
 	Cbrh  string   `json:"cbrh"`
 	Csfr  string   `json:"csfr"`
@@ -47,32 +44,43 @@ type chareq {
 
 //执行
 type perreq {
-	Ilx   int64    `json:"ilx"`
 	Ibrlx int64    `json:"ibrlx"`
 	Cbrh  string   `json:"cbrh"`
 	Csqdh string   `json:"csqdh"`
 	Cztbm []string `json:"cztbm"`
 }
 type resp {
-
 }
 
 //报告
 
 service sqd-api {
+	@doc "开单"
 	@handler Add    // 开单
 	post /sqd/add(addreq) returns(resp)
-	
+	@doc "撤单"
 	@handler Del // 撤单
 	post /sqd/del(delreq) returns(resp)
-	
+	@doc "登记"
 	@handler Reg    // 登记
 	post /sqd/reg(regreq) returns(resp)
-	
+	@doc "取消登记"
+	@handler Regc    // 取消登记
+	post /sqd/regc(regreq) returns(resp)
+	@doc "计费"
 	@handler Cha // 计费
 	post /sqd/cha(chareq) returns(resp)
-	
+	@doc "取消计费"
+	@handler Chac // 退费
+	post /sqd/chac(chareq) returns(resp)
+	@doc "执行"
 	@handler Per // 执行
 	post /sqd/per(perreq) returns(resp)
+	@doc "取消执行"
+	@handler Perc // 取消执行
+	post /sqd/perc(perreq) returns(resp)
 	
 }
+
+//命令
+//goctl api go -api sqd.api -dir ./

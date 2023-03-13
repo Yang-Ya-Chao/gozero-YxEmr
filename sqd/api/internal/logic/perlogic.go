@@ -4,7 +4,6 @@ import (
 	"YxEmr/common/xerr"
 	"YxEmr/sqd/api/internal/svc"
 	"YxEmr/sqd/api/internal/types"
-	"YxEmr/sqd/rpc/per/per"
 	"YxEmr/sqd/rpc/per/perer"
 	"context"
 	"github.com/pkg/errors"
@@ -26,10 +25,9 @@ func NewPerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PerLogic {
 	}
 }
 
-func (l *PerLogic) Per(req *types.Perreq) (resp *per.Resp, err error) {
+func (l *PerLogic) Per(req *types.Perreq) (resp *perer.Resp, err error) {
 	/// 手动代码开始
-	r, err := l.svcCtx.Perer.Do(l.ctx, &perer.Req{
-		Ilx:   req.Ilx,
+	resp, err = l.svcCtx.Perer.Do(l.ctx, &perer.Req{
 		Ibrlx: req.Ibrlx,
 		Cbrh:  req.Cbrh,
 		Csqdh: req.Csqdh,
@@ -37,9 +35,9 @@ func (l *PerLogic) Per(req *types.Perreq) (resp *per.Resp, err error) {
 	})
 	if err != nil {
 		return nil, errors.Wrapf(xerr.NewErrMsg("执行失败"),
-			"执行失败: req: %+v , err : %v ", l.svcCtx.Config.Name, req, err)
+			"执行失败: req: %+v , err : %v ", req, err)
 	}
 
-	return r, nil
+	return nil, nil
 	// 手动代码结束
 }

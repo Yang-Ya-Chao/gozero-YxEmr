@@ -17,7 +17,6 @@ type Delreq struct {
 }
 
 type Regreq struct {
-	Ilx   int64    `json:"ilx"`
 	Ibrlx int64    `json:"ibrlx"`
 	Cbrh  string   `json:"cbrh"`
 	Csqdh string   `json:"csqdh"`
@@ -25,7 +24,6 @@ type Regreq struct {
 }
 
 type Chareq struct {
-	Ilx   int64    `json:"ilx"`
 	Ibrlx int64    `json:"ibrlx"`
 	Cbrh  string   `json:"cbrh"`
 	Csfr  string   `json:"csfr"`
@@ -35,7 +33,6 @@ type Chareq struct {
 }
 
 type Perreq struct {
-	Ilx   int64    `json:"ilx"`
 	Ibrlx int64    `json:"ibrlx"`
 	Cbrh  string   `json:"cbrh"`
 	Csqdh string   `json:"csqdh"`
@@ -43,5 +40,4 @@ type Perreq struct {
 }
 
 type Resp struct {
-
 }

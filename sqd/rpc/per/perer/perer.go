@@ -18,6 +18,7 @@ type (
 
 	Perer interface {
 		Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
+		Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
 	}
 
 	defaultPerer struct {
@@ -34,4 +35,9 @@ func NewPerer(cli zrpc.Client) Perer {
 func (m *defaultPerer) Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
 	client := per.NewPererClient(m.cli.Conn())
 	return client.Do(ctx, in, opts...)
+}
+
+func (m *defaultPerer) Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
+	client := per.NewPererClient(m.cli.Conn())
+	return client.Co(ctx, in, opts...)
 }

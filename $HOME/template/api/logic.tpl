@@ -19,7 +19,12 @@ func New{{.logic}}(ctx context.Context, svcCtx *svc.ServiceContext) *{{.logic}} 
 }
 
 func (l *{{.logic}}) {{.function}}({{.request}}) {{.responseType}} {
-	// todo: add your logic here and delete this line
+	/// 手动代码开始
+    resp, err = l.svcCtx.xxx.Do(l.ctx,{{.responseType}})
+    if err != nil {
+    	return nil, errors.Wrapf(xerr.NewErrMsg("失败"),
+    		"失败: req: %+v , err : %v ", req, err)
+    }
 
-	{{.returnString}}
+    return resp, nil
 }

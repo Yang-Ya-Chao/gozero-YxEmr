@@ -4,7 +4,6 @@ package reg;
 option go_package="./reg";
 
 message Req {
-  int64 Ilx = 1;
   int64 Ibrlx = 2;
   string Cbrh = 3;
   string Csqdh = 4;
@@ -17,4 +16,9 @@ message Resp {
 
 service reger {
   rpc Do(Req) returns(Resp);
+  rpc Co(Req) returns(Resp);
 }
+//使用YxEmr模板生成
+//goctl rpc protoc reg.proto --go_out=. --go-grpc_out=. --zrpc_out=. --home D:/GoWork/src/YxEmr/$HOME/template
+//默认模板生成
+//goctl rpc protoc reg.proto --go_out=. --go-grpc_out=. --zrpc_out=.

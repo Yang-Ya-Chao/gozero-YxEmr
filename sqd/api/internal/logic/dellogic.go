@@ -4,7 +4,6 @@ import (
 	"YxEmr/common/xerr"
 	"YxEmr/sqd/api/internal/svc"
 	"YxEmr/sqd/api/internal/types"
-	"YxEmr/sqd/rpc/del/del"
 	"YxEmr/sqd/rpc/del/deler"
 	"context"
 	"github.com/pkg/errors"
@@ -26,9 +25,9 @@ func NewDelLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelLogic {
 	}
 }
 
-func (l *DelLogic) Del(req *types.Delreq) (resp *del.Resp, err error) {
+func (l *DelLogic) Del(req *types.Delreq) (resp *deler.Resp, err error) {
 	/// 手动代码开始
-	r, err := l.svcCtx.Deler.Do(l.ctx, &deler.Req{
+	resp, err = l.svcCtx.Deler.Do(l.ctx, &deler.Req{
 		Isqlx: req.Isqlx,
 		Ibrlx: req.Ibrlx,
 		Cbrh:  req.Cbrh,
@@ -39,5 +38,5 @@ func (l *DelLogic) Del(req *types.Delreq) (resp *del.Resp, err error) {
 			"撤单失败: req: %+v , err : %v ", req, err)
 	}
 
-	return r, nil
+	return resp, nil
 }

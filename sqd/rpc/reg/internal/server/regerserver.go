@@ -30,3 +30,12 @@ func (s *RegerServer) Do(ctx context.Context, in *reg.Req) (*reg.Resp, error) {
 	}
 	return &reg.Resp{},err
 }
+
+func (s *RegerServer) Co(ctx context.Context, in *reg.Req) (*reg.Resp, error) {
+	l := logic.NewCoLogic(ctx, s.svcCtx)
+	_,err := l.Co(in)
+	if err != nil {
+		l.Logger.Error(err)
+	}
+	return &reg.Resp{},err
+}

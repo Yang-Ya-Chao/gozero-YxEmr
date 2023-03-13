@@ -25,8 +25,9 @@ func NewAdderServer(svcCtx *svc.ServiceContext) *AdderServer {
 func (s *AdderServer) Do(ctx context.Context, in *add.Req) (*add.Resp, error) {
 	l := logic.NewDoLogic(ctx, s.svcCtx)
 	r,err := l.Do(in)
-	if err != nil {
+	if err!=nil{
 		l.Logger.Error(err)
+		return nil, err
 	}
 	return r,err
 }

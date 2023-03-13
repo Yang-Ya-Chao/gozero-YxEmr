@@ -45,13 +45,12 @@ func (l *DoLogic) Do(in *add.Req) (*add.Resp, error) {
 		tmp              interface{}
 		ok               bool
 	)
-	ret := &add.Resp{}
 	switch in.Ibrlx {
 	case 0:
 		{
 			tbxx = database.GetTBName("TBMZJCSQDXXWZX", in.Cbrh)
 			if mzbr, err := pub.GetMzbr(in.Cbrh); err != nil {
-				return ret, err
+				return nil, err
 			} else {
 				copier.Copy(&brinfo, &mzbr)
 				csfxmzl = "1"
@@ -61,7 +60,7 @@ func (l *DoLogic) Do(in *add.Req) (*add.Resp, error) {
 	case 1:
 		{
 			if zybr, err := pub.GetZybr(in.Cbrh); err != nil {
-				return ret, err
+				return nil, err
 			} else {
 				copier.Copy(&brinfo, &zybr)
 				csfxmzl = "0"
@@ -76,13 +75,13 @@ func (l *DoLogic) Do(in *add.Req) (*add.Resp, error) {
 	tbxm = strings.ReplaceAll(tbxx, "XX", "XM")
 	var err error
 	if tmp, err = pub.GetMbmx(in.Cmbbh); err != nil {
-		return ret, err
+		return nil, err
 	}
 	if mbmxs, ok = tmp.(*[]pub.Tmbmx); !ok {
-		return ret, err
+		return nil, err
 	}
 	if csqdbh, err = database.Getsysnumber("0024", 1, "00"); csqdbh == "" {
-		return ret, err
+		return nil, err
 	}
 	CZTBM := fmt.Sprintf("%+q\n", in.Cztbm)
 	for _, u := range *mbmxs {
@@ -165,14 +164,14 @@ func (l *DoLogic) Do(in *add.Req) (*add.Resp, error) {
 			}
 		}
 		if !hassfxm {
-			return ret, errors.New("模板[" + in.Cmbbh + "]与组套项目[" + val + "]未绑定！")
+			return nil, errors.New("模板[" + in.Cmbbh + "]与组套项目[" + val + "]未绑定！")
 		}
 		CYZNR = CYZNR + " " + tmpmbmx.CSFXMMC
 		if tmp, err = pub.GetZtmx(val, csfxmzl); err != nil {
-			return ret, err
+			return nil, err
 		}
 		if ztmxs, ok = tmp.(*[]pub.Tztmx); !ok {
-			return ret, err
+			return nil, err
 		}
 		for _, u := range *ztmxs {
 			sqdxm = pub.Tsqdxm{
@@ -220,8 +219,7 @@ func (l *DoLogic) Do(in *add.Req) (*add.Resp, error) {
 	fsql += database.GetBranchInsertSql(sqdxms, tbxm)
 	fsql += database.GetBranchInsertSql(sqdmxs, tbmx)
 	if err := database.Exesql(fsql); err != nil {
-		return ret, err
+		return nil, err
 	}
-	ret.Data = csqdbh
-	return ret, nil
+	return &add.Resp{Data: csqdbh}, nil
 }

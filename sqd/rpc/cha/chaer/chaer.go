@@ -18,6 +18,7 @@ type (
 
 	Chaer interface {
 		Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
+		Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
 	}
 
 	defaultChaer struct {
@@ -34,4 +35,9 @@ func NewChaer(cli zrpc.Client) Chaer {
 func (m *defaultChaer) Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
 	client := cha.NewChaerClient(m.cli.Conn())
 	return client.Do(ctx, in, opts...)
+}
+
+func (m *defaultChaer) Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
+	client := cha.NewChaerClient(m.cli.Conn())
+	return client.Co(ctx, in, opts...)
 }

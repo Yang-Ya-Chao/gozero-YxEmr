@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChaerClient interface {
 	Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
+	Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
 }
 
 type chaerClient struct {
@@ -42,11 +43,21 @@ func (c *chaerClient) Do(ctx context.Context, in *Req, opts ...grpc.CallOption) 
 	return out, nil
 }
 
+func (c *chaerClient) Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
+	out := new(Resp)
+	err := c.cc.Invoke(ctx, "/cha.chaer/Co", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ChaerServer is the server API for Chaer service.
 // All implementations must embed UnimplementedChaerServer
 // for forward compatibility
 type ChaerServer interface {
 	Do(context.Context, *Req) (*Resp, error)
+	Co(context.Context, *Req) (*Resp, error)
 	mustEmbedUnimplementedChaerServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedChaerServer struct {
 
 func (UnimplementedChaerServer) Do(context.Context, *Req) (*Resp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Do not implemented")
+}
+func (UnimplementedChaerServer) Co(context.Context, *Req) (*Resp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Co not implemented")
 }
 func (UnimplementedChaerServer) mustEmbedUnimplementedChaerServer() {}
 
@@ -88,6 +102,24 @@ func _Chaer_Do_Handler(srv interface{}, ctx context.Context, dec func(interface{
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Chaer_Co_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Req)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChaerServer).Co(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cha.chaer/Co",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChaerServer).Co(ctx, req.(*Req))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Chaer_ServiceDesc is the grpc.ServiceDesc for Chaer service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var Chaer_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Do",
 			Handler:    _Chaer_Do_Handler,
+		},
+		{
+			MethodName: "Co",
+			Handler:    _Chaer_Co_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

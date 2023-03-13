@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ReperClient interface {
 	Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
+	Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
 }
 
 type reperClient struct {
@@ -42,11 +43,21 @@ func (c *reperClient) Do(ctx context.Context, in *Req, opts ...grpc.CallOption) 
 	return out, nil
 }
 
+func (c *reperClient) Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
+	out := new(Resp)
+	err := c.cc.Invoke(ctx, "/rep.reper/Co", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReperServer is the server API for Reper service.
 // All implementations must embed UnimplementedReperServer
 // for forward compatibility
 type ReperServer interface {
 	Do(context.Context, *Req) (*Resp, error)
+	Co(context.Context, *Req) (*Resp, error)
 	mustEmbedUnimplementedReperServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedReperServer struct {
 
 func (UnimplementedReperServer) Do(context.Context, *Req) (*Resp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Do not implemented")
+}
+func (UnimplementedReperServer) Co(context.Context, *Req) (*Resp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Co not implemented")
 }
 func (UnimplementedReperServer) mustEmbedUnimplementedReperServer() {}
 
@@ -88,6 +102,24 @@ func _Reper_Do_Handler(srv interface{}, ctx context.Context, dec func(interface{
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Reper_Co_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Req)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReperServer).Co(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/rep.reper/Co",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReperServer).Co(ctx, req.(*Req))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Reper_ServiceDesc is the grpc.ServiceDesc for Reper service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var Reper_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Do",
 			Handler:    _Reper_Do_Handler,
+		},
+		{
+			MethodName: "Co",
+			Handler:    _Reper_Co_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

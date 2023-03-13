@@ -30,3 +30,12 @@ func (s *ReperServer) Do(ctx context.Context, in *rep.Req) (*rep.Resp, error) {
 	}
 	return &rep.Resp{},err
 }
+
+func (s *ReperServer) Co(ctx context.Context, in *rep.Req) (*rep.Resp, error) {
+	l := logic.NewCoLogic(ctx, s.svcCtx)
+	_,err := l.Co(in)
+	if err != nil {
+		l.Logger.Error(err)
+	}
+	return &rep.Resp{},err
+}

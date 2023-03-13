@@ -18,6 +18,7 @@ type (
 
 	Reper interface {
 		Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
+		Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error)
 	}
 
 	defaultReper struct {
@@ -34,4 +35,9 @@ func NewReper(cli zrpc.Client) Reper {
 func (m *defaultReper) Do(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
 	client := rep.NewReperClient(m.cli.Conn())
 	return client.Do(ctx, in, opts...)
+}
+
+func (m *defaultReper) Co(ctx context.Context, in *Req, opts ...grpc.CallOption) (*Resp, error) {
+	client := rep.NewReperClient(m.cli.Conn())
+	return client.Co(ctx, in, opts...)
 }

@@ -29,13 +29,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/sqd/regc",
+				Handler: RegcHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/sqd/cha",
 				Handler: ChaHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodPost,
+				Path:    "/sqd/chac",
+				Handler: ChacHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
 				Path:    "/sqd/per",
 				Handler: PerHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/sqd/perc",
+				Handler: PercHandler(serverCtx),
 			},
 		},
 	)
